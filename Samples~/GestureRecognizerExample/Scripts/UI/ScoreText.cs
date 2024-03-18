@@ -16,7 +16,7 @@ namespace TF.GestureRecognizer.Sample
 
         public void UpdateFromResult(string scoreName, double score)
         {
-            text.text = $"{scoreName} - {score}";
+            text.text = $"{scoreName} - {score:P0}";
             gameObject.SetActive(true);
         }
 

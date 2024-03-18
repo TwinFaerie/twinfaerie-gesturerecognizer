@@ -15,5 +15,12 @@
     "name": "Twin Faerie",
     "email": "support@twinfaerie.my.id",
     "url": "https://www.twinfaerie.my.id/"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Example Usage",
+      "description": "Adding Example Implementation to the module",
+      "path": "Samples~/GestureRecognizerExample"
+    }
+  ]
 }
