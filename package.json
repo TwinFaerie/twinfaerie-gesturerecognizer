@@ -1,0 +1,19 @@
+{
+  "name": "com.twinfaerie.gesturerecognizer",
+  "version": "1.0.0",
+  "displayName": "TwinFaerie Gesture Recognizer",
+  "description": "Touch Gesture / Shape Recognizer for Unity",
+  "unity": "2020.3",
+  "documentationUrl": "https://github.com/TwinFaerie/twinfaerie-gesturerecognizer",
+  "changelogUrl": "https://github.com/TwinFaerie/twinfaerie-gesturerecognizer/releases",
+  "licensesUrl": "https://github.com/TwinFaerie/twinfaerie-gesturerecognizer/blob/main/LICENSE",
+  "repository": "https://github.com/TwinFaerie/twinfaerie-gesturerecognizer",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@twinfaerie"
+  },
+  "author": {
+    "name": "Twin Faerie",
+    "email": "support@twinfaerie.my.id",
+    "url": "https://www.twinfaerie.my.id/"
+  }
+}
