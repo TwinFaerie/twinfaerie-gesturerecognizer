@@ -145,7 +145,7 @@ namespace TF.GestureRecognizer.Sample
             {
                 debugLineList[finger.index][strokeIndexList[finger.index]].UpdateLine(pointList[finger.index]
                     .Where(point => point.StrokeIndex == strokeIndexList[finger.index])
-                    .Select(point => point.Point)
+                    .Select(point => point.Point.ToVector2())
                     .ToList());
             }
 
