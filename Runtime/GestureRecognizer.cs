@@ -46,5 +46,10 @@ namespace TF.GestureRecognizer
         {
             return Recognizer.Recognize(pointList, 64, GestureLibrary, gestureName);
         }
+        
+        public void Save(string gestureName, List<StrokePoint> pointList)
+        {
+            GestureLibrary.Add(gestureName, Recognizer.Normalize(pointList, 64));
+        }
     }
 }

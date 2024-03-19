@@ -17,7 +17,7 @@ namespace TF.GestureRecognizer.Recognizer
                 SavePath = Path.Combine(Application.dataPath, path);
             }
             
-            LoadFromJson();
+            LoadAllFromJson();
         }
         
         public GestureLibrary(List<Gesture> gestureList)
@@ -28,10 +28,19 @@ namespace TF.GestureRecognizer.Recognizer
 
         public void Add(string name, List<StrokePoint> pointList)
         {
-            GestureList.Add(new Gesture(name, pointList));
+            if (string.IsNullOrEmpty(name))
+            {
+                Debug.LogError("Can't save with empty name");
+                return;
+            }
+            
+            var gesture = new Gesture(name, pointList);
+            
+            SaveToJson(gesture);
+            GestureList.Add(gesture);
         }
         
-        public void SaveToJson()
+        public void SaveToJson(Gesture gesture)
         {
             if (string.IsNullOrEmpty(SavePath))
             { return; }
@@ -40,27 +49,21 @@ namespace TF.GestureRecognizer.Recognizer
             {
                 Directory.CreateDirectory(SavePath);
             }
+            
+            var json = JsonUtility.ToJson(gesture);
 
-            if (GestureList is null || GestureList.Any())
-            { return; }
-
-            foreach (var gesture in GestureList)
+            var index = 1;
+            var filePath = Path.Combine(SavePath, $"{gesture.Name}_{index}.json");
+            
+            while (File.Exists(filePath))
             {
-                var json = JsonUtility.ToJson(gesture);
-
-                var index = 1;
-                var filePath = Path.Combine(SavePath, $"{gesture.Name}_{index}.json");
-                
-                while (File.Exists(filePath))
-                {
-                    filePath = Path.Combine(SavePath, $"{gesture.Name}_{++index}.json");
-                }
-                
-                File.WriteAllText(filePath, json);
+                filePath = Path.Combine(SavePath, $"{gesture.Name}_{++index}.json");
             }
+            
+            File.WriteAllText(filePath, json);
         }
 
-        public void LoadFromJson()
+        public void LoadAllFromJson()
         {
             GestureList = new List<Gesture>();
             

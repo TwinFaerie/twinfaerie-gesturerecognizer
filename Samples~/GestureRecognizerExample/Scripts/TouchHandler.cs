@@ -8,7 +8,7 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch;
 
 namespace TF.GestureRecognizer.Sample
 {
-    [RequireComponent(typeof(GestureRecognizer), typeof(GestureSaver))]
+    [RequireComponent(typeof(GestureRecognizer))]
     public class TouchHandler : MonoBehaviour
     {
         [SerializeField] private bool enableDebug;
@@ -25,12 +25,10 @@ namespace TF.GestureRecognizer.Sample
         private Dictionary<int, int> strokeIndexList = new();
         
         private GestureRecognizer recognizer;
-        private GestureSaver saver;
         
         private void Start()
         {
             recognizer = GetComponent<GestureRecognizer>();
-            saver = GetComponent<GestureSaver>();
             
             EnhancedTouch.Touch.onFingerDown += OnFingerDown;
             EnhancedTouch.Touch.onFingerUp += OnFingerUp;
@@ -93,7 +91,7 @@ namespace TF.GestureRecognizer.Sample
 
         public void Save(string saveName, int index)
         {
-            saver.Save(saveName, pointList[index]);
+            recognizer.Save(saveName, pointList[index]);
             ResetCache(index);
         }
 
