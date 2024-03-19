@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using TF.GestureRecognizer.Recognizer;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +15,7 @@ namespace TF.GestureRecognizer.Sample
     {
         [SerializeField] private bool enableDebug;
         [SerializeField] private DebugLine debugLine;
+        [SerializeField] private string path;
 
         public UnityEvent OnDrawStart;
         public UnityEvent OnDrawFinish;
@@ -29,6 +32,7 @@ namespace TF.GestureRecognizer.Sample
         private void Start()
         {
             recognizer = GetComponent<GestureRecognizer>();
+            recognizer.SetLibrary(LoadAllFromJson());
             
             EnhancedTouch.Touch.onFingerDown += OnFingerDown;
             EnhancedTouch.Touch.onFingerUp += OnFingerUp;
@@ -91,7 +95,7 @@ namespace TF.GestureRecognizer.Sample
 
         public void Save(string saveName, int index)
         {
-            recognizer.Save(saveName, pointList[index]);
+            SaveToJson(recognizer.Save(saveName, pointList[index]));
             ResetCache(index);
         }
 
@@ -185,6 +189,62 @@ namespace TF.GestureRecognizer.Sample
             line.name = $"draw_{index}_{strokeIndex}";
 
             return line;
+        }
+        
+        private void SaveToJson(Gesture gesture)
+        {
+            if (gesture is null)
+            { return; }
+            
+            if (string.IsNullOrEmpty(path))
+            { return; }
+
+            var savePath = Path.Combine(Application.dataPath, path);
+            
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+            
+            var json = JsonConvert.SerializeObject(gesture);
+            Debug.Log("test3 : \n" + json);
+
+            var index = 1;
+            var filePath = Path.Combine(savePath, $"{gesture.Name}_{index}.json");
+            
+            while (File.Exists(filePath))
+            {
+                filePath = Path.Combine(savePath, $"{gesture.Name}_{++index}.json");
+            }
+            
+            File.WriteAllText(filePath, json);
+            
+            Debug.Log("Saved new Gesture json on path : " + filePath);
+        }
+        
+        private List<Gesture> LoadAllFromJson()
+        {
+            var gestureList = new List<Gesture>();
+            
+            if (string.IsNullOrEmpty(path))
+            { return gestureList; }
+            
+            var savePath = Path.Combine(Application.dataPath, path);
+
+            if (!Directory.Exists(savePath))
+            { return gestureList; }
+
+            var filePathList = Directory.GetFiles(savePath, "*.json");
+
+            foreach (var filePath in filePathList)
+            {
+                var json = File.ReadAllText(filePath);
+                var gesture = JsonConvert.DeserializeObject<Gesture>(json);
+                
+                gestureList.Add(gesture);
+            }
+
+            return gestureList;
         }
     }
 }

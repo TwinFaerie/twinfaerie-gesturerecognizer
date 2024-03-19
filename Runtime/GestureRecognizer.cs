@@ -12,7 +12,6 @@ namespace TF.GestureRecognizer
         }
 
         [SerializeField] private RecognizerType type;
-        [SerializeField] private string path;
         
         public BaseRecognizer Recognizer { get; private set; }
         public GestureLibrary GestureLibrary { get; private set; }
@@ -20,7 +19,6 @@ namespace TF.GestureRecognizer
         private void Start()
         {
             SetupRecognizer();
-            SetupLibrary();
         }
 
         private void SetupRecognizer()
@@ -32,24 +30,36 @@ namespace TF.GestureRecognizer
             };
         }
 
-        private void SetupLibrary()
+        public void SetLibrary(List<Gesture> gestureList)
         {
-            GestureLibrary = new GestureLibrary(path);
+            GestureLibrary = new GestureLibrary(gestureList);
         }
 
         public Result Recognize(List<StrokePoint> pointList)
         {
+            if (GestureLibrary is null)
+            { return null; }
+            
             return Recognizer.Recognize(pointList, 64, GestureLibrary);
         }
 
         public Result Recognize(List<StrokePoint> pointList, string gestureName)
         {
+            if (GestureLibrary is null)
+            { return null; }
+            
             return Recognizer.Recognize(pointList, 64, GestureLibrary, gestureName);
         }
         
-        public void Save(string gestureName, List<StrokePoint> pointList)
+        public Gesture Save(string gestureName, List<StrokePoint> pointList)
         {
-            GestureLibrary.Add(gestureName, Recognizer.Normalize(pointList, 64));
+            Debug.Log("test1");
+            return GestureLibrary?.Add(gestureName, Recognizer.Normalize(pointList, 64));
+        }
+        
+        public void Remove(Gesture gesture)
+        {
+            GestureLibrary?.Remove(gesture);
         }
     }
 }
