@@ -24,7 +24,7 @@ namespace TF.GestureRecognizer.Recognizer
 
         #endregion Recognize Variation
         
-        protected static List<StrokePoint> Resample(IList<StrokePoint> pointList, int total)
+        public static List<StrokePoint> Resample(IList<StrokePoint> pointList, int total)
         {
             var interval = GetPathLength(pointList) / (total - 1);
             var distance = 0f;
