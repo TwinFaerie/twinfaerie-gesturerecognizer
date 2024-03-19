@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace TF.GestureRecognizer.Recognizer
@@ -50,7 +50,7 @@ namespace TF.GestureRecognizer.Recognizer
                 Directory.CreateDirectory(SavePath);
             }
             
-            var json = JsonUtility.ToJson(gesture);
+            var json = JsonConvert.SerializeObject(gesture);
 
             var index = 1;
             var filePath = Path.Combine(SavePath, $"{gesture.Name}_{index}.json");
@@ -75,7 +75,7 @@ namespace TF.GestureRecognizer.Recognizer
             foreach (var filePath in filePathList)
             {
                 var json = File.ReadAllText(filePath);
-                var gesture = JsonUtility.FromJson<Gesture>(json);
+                var gesture = JsonConvert.DeserializeObject<Gesture>(json);
                 
                 GestureList.Add(gesture);
             }

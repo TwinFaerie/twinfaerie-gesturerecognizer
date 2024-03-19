@@ -6,12 +6,12 @@ namespace TF.GestureRecognizer.Recognizer
     [Serializable]
     public struct StrokePoint
     {
-        public Vector2 Point;
+        public SerializedVector2 Point;
         public int StrokeIndex;
 
         public StrokePoint(float pointX, float pointY, int strokeIndex)
         {
-            Point = new Vector2(pointX, pointY);
+            Point = new SerializedVector2(pointX, pointY);
             StrokeIndex = strokeIndex;
         }
         

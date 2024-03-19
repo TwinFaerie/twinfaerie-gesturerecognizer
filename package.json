@@ -22,5 +22,8 @@
       "description": "Adding Example Implementation to the module",
       "path": "Samples~/GestureRecognizerExample"
     }
-  ]
+  ],
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
+  }
 }
